@@ -7,6 +7,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.icker.factions.config.Config;
 import io.icker.factions.database.Member;
+import io.icker.factions.command.FactionSuggestions;
 import net.minecraft.command.argument.ColorArgumentType;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
@@ -147,7 +148,8 @@ public class CommandRegistry {
 		LiteralCommandNode<ServerCommandSource> addAlly = CommandManager
 				.literal("add")
 				.then(
-						CommandManager.argument("player", EntityArgumentType.player())
+						CommandManager.argument("faction", StringArgumentType.greedyString())
+								.suggests(FactionSuggestions.getSuggestions())
 								.executes(AllyCommand::add)
 				)
 				.build();
